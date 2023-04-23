@@ -1,30 +1,36 @@
 import { useRouter } from "next/router";
-import { FiHome, FiSearch, FiCompass, FiVideo } from "react-icons/fi";
+import { FiHome, FiSearch, FiCompass } from "react-icons/fi";
 
 export default function Sidebar() {
   const router = useRouter();
 
-  if (router.asPath !== "/login")
+  const noSidebarRoutes = ["/login", "/register", "/", "/[username]"];
+
+  if (!noSidebarRoutes.includes(router.pathname))
     return (
-      <div className="h-screen w-72 border border-gray-800 px-5 pt-5">
-        <div className="mb-5 flex w-full cursor-pointer items-center rounded-full p-3 hover:bg-gray-900">
-          <FiHome className="mr-4 text-2xl" />
-          <p className="">Home</p>
+      <div className="flex h-screen flex-col items-center justify-center border border-gray-800 px-3">
+        <div
+          style={{ borderWidth: router.asPath === "/feed" ? 1 : 0 }}
+          onClick={() => router.push("/feed")}
+          className="mb-5 cursor-pointer rounded-full border-black p-3 transition-all duration-300 hover:bg-gray-100"
+        >
+          <FiHome className="text-2xl" />
         </div>
 
-        <div className="mb-5 flex w-full cursor-pointer items-center rounded-full p-3 hover:bg-gray-900">
-          <FiSearch className="mr-4 text-2xl" />
-          <p className="">Search</p>
+        <div
+          style={{ borderWidth: router.asPath === "/search" ? 1 : 0 }}
+          onClick={() => router.push("/search")}
+          className="mb-5 cursor-pointer rounded-full border-black p-3 transition-all duration-300 hover:bg-gray-100"
+        >
+          <FiSearch className="text-2xl" />
         </div>
 
-        <div className="mb-5 flex w-full cursor-pointer items-center rounded-full p-3 hover:bg-gray-900">
-          <FiCompass className="mr-4 text-2xl" />
-          <p className="">Explore</p>
-        </div>
-
-        <div className="mb-5 flex w-full cursor-pointer items-center rounded-full p-3 hover:bg-gray-900">
-          <FiVideo className="mr-4 text-2xl" />
-          <p className="">Reels</p>
+        <div
+          style={{ borderWidth: router.asPath === "/discover" ? 1 : 0 }}
+          onClick={() => router.push("/discover")}
+          className="mb-5 cursor-pointer rounded-full border-black p-3 transition-all duration-300 hover:bg-gray-100"
+        >
+          <FiCompass className="text-2xl" />
         </div>
       </div>
     );

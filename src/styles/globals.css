@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* apply styles to all heading in the class markdown */
+.markdown h1 {
+  @apply mb-5 mt-10 text-4xl font-extrabold;
+}
+
+.markdown h2 {
+  @apply my-1.5 mt-5 text-2xl font-bold;
+}
+
+.markdown h3 {
+  @apply my-1 text-base font-bold;
+}
+
+.markdown a {
+  @apply text-blue-500 underline;
+}
+
+.markdown ul {
+  @apply list-inside list-disc;
+}
+
+.markdown ol {
+  @apply list-inside list-decimal;
+}
+
+.markdown li {
+  @apply -my-1;
+}
+
+.disable-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.disable-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
