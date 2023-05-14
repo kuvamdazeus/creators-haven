@@ -19,8 +19,13 @@ import {
 } from "~/server/utils/images";
 import { useRouter } from "next/router";
 import Profile from "~/components/Profile";
+import { useUser } from "@clerk/nextjs";
 
 export default function Register() {
+  const { isSignedIn, user } = useUser();
+
+  console.log(isSignedIn, user);
+
   const router = useRouter();
 
   const userMut = api.user.register.useMutation({
@@ -478,7 +483,8 @@ export default function Register() {
 
       <div className="w-2/3 overflow-y-scroll">
         <Profile
-          {...{
+          user={{
+            username: "",
             coverImageUrl: coverImageUrl || defaultCover,
             profileImageUrl: profileImageUrl || defaultProfile,
             name: name || defaultName,

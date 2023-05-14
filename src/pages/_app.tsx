@@ -5,16 +5,19 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Sidebar from "~/components/Sidebar";
 import { NextUIProvider } from "@nextui-org/react";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <NextUIProvider>
-      <section className="flex h-screen">
-        <Sidebar />
+    <ClerkProvider {...pageProps}>
+      <NextUIProvider>
+        <section className="flex h-screen">
+          {/* <Sidebar /> */}
 
-        <Component {...pageProps} />
-      </section>
-    </NextUIProvider>
+          <Component {...pageProps} />
+        </section>
+      </NextUIProvider>
+    </ClerkProvider>
   );
 };
 

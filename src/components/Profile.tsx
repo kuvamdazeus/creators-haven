@@ -20,7 +20,7 @@ export default function Profile({ user }: Props) {
       <div className="absolute z-50 -mt-48 flex items-center px-12">
         <img
           src={user.profileImageUrl}
-          className="mr-10 h-56 w-56 rounded-full"
+          className="mr-10 h-56 w-56 overflow-hidden rounded-full object-cover"
         />
 
         <div>

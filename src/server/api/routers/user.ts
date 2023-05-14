@@ -1,9 +1,10 @@
 import { z } from "zod";
 import { profileSchema } from "~/schemas";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { userCookie } from "~/server/utils/cookies";
-import { generateUsername } from "~/server/utils/strings";
+import { createTRPCRouter } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
+import { protectedProcedure, publicProcedure } from "~/server/api/procedures";
+import { clerkClient } from "@clerk/nextjs";
+import { generateUsername } from "~/server/utils/strings";
 
 export const userRouter = createTRPCRouter({
   getProfile: publicProcedure
@@ -22,21 +23,28 @@ export const userRouter = createTRPCRouter({
 
       return user;
     }),
-  register: publicProcedure
+  register: protectedProcedure
     .input(profileSchema)
     .mutation(async ({ ctx, input }) => {
-      console.log(userCookie.get(ctx.req));
+      const { username } = await clerkClient.users.getUser(ctx.userId);
+      const generatedUsername = generateUsername(input.name);
 
-      const { username } = await ctx.prisma.user.create({
+      console.log(username, "\n\n\n\n\n");
+
+      if (!username) {
+        await clerkClient.users.updateUser(ctx.userId, {
+          username: generatedUsername,
+        });
+      }
+
+      await ctx.prisma.user.create({
         data: {
           ...input,
-          username: generateUsername(input.name),
+          username: username || generatedUsername,
         },
         select: {
           username: true,
         },
       });
-
-      userCookie.set(username, ctx.res);
     }),
 });
